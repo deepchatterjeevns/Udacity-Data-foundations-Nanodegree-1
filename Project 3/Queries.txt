@@ -1,0 +1,77 @@
+/* Query 1 */
+
+
+SELECT Artist.name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS MoneyEarned
+FROM Artist
+JOIN Album
+ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+ON Album.AlbumId = Track.AlbumId
+JOIN Genre
+ON Track.GenreId = Genre.GenreId
+JOIN InvoiceLine
+ON Track.TrackId = InvoiceLine.TrackId
+where Genre.Name = 'Metal' or Genre.Name = 'Jazz'
+GROUP BY Artist.Name
+LIMIT 10
+
+
+
+
+
+/* Query 2 */
+
+
+SELECT Artist.name, COUNT(MediaType.Name) AS NumberofMediaType_MPEG
+FROM Artist
+JOIN Album
+ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+ON Album.AlbumId = Track.AlbumId
+JOIN Genre
+ON Track.GenreId = Genre.GenreId
+JOIN MediaType
+ON Track.MediaTypeId = MediaType.MediaTypeId
+where MediaType.Name = 'MPEG audio file'
+GROUP BY Artist.Name
+limit 5
+
+
+
+
+/* Query 3 */
+
+
+SELECT  Artist.Name, COUNT(Track.TrackId) AS NumberofSongs
+FROM Artist
+JOIN Album
+ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+ON Album.AlbumId = Track.AlbumId
+JOIN Genre
+ON Track.GenreId = Genre.GenreId
+WHERE Genre.name = 'Metal'
+GROUP BY Artist.name
+LIMIT 10
+
+
+
+
+
+/* Query 4 */
+
+SELECT Customer.LastName AS CustomerName, SUM(Invoice.Total) AS TotalMoneySpent
+FROM Customer
+JOIN Invoice
+ON Invoice.CustomerId = Customer.CustomerId
+JOIN InvoiceLine
+ON Invoice.InvoiceId = InvoiceLine.InvoiceId
+JOIN Track 
+ON InvoiceLine.TrackId = Track.TrackId
+JOIN Album
+ON Track.AlbumId = Album.AlbumId
+JOIN Artist 
+ON Album.ArtistId = Artist.ArtistId
+where Artist.Name = 'Gene Krupa' or 'Apocalyptica'
+GROUP BY Customer.LastName
+LIMIT 7;
